@@ -1,4 +1,5 @@
 <script>
+
 // import { reactive, toRefs } from "vue";
 
 export default {
@@ -21,25 +22,32 @@ export default {
   },
   setup(props) {
     console.log(props);
+    
     const columRenader = (item, index) => {
-      if (!item.type) {
+      if (item.render) {
+        let render_dict = {
+          default: (scope) => item.render(scope.row),
+        };
+
+        if (item.renderHeader) {
+          render_dict["header"] = (scope) => item.renderHeader(scope.column, scope.store, scope.$index);
+        }
         return (
-          <el-table-column
-            key={index}
-            label={item.label}
-            prop={item.prop}
-          ></el-table-column>
+          <el-table-column key={index} {...item.args}>
+            {render_dict}
+          </el-table-column>
         );
       }
-      if (item.type == "Render") {
+      if (item.renderHeader) {
         return (
-          <el-table-column key={index} label={item.label}>
+          <el-table-column key={index} {...item.args}>
             {{
-              default: (scope) => item.render(scope.row),
+              header: (scope) => item.renderHeader(scope.row),
             }}
           </el-table-column>
         );
       }
+      return <el-table-column key={index} {...item.args}></el-table-column>;
     };
     return {
       columRenader,

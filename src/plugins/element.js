@@ -15,6 +15,11 @@ import {
   ElPagination,
   ElRow,
   ElCol,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElDialog,
+  ElInput
 } from "element-plus";
 
 export default (app) => {
@@ -34,4 +39,9 @@ export default (app) => {
   app.component(ElPagination.name, ElPagination);
   app.use(ElRow);
   app.use(ElCol);
+  app.use(ElDropdown);
+  app.use(ElDropdownMenu);
+  app.use(ElDropdownItem);
+  app.use(ElDialog);
+  app.use(ElInput);
 };

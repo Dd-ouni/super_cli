@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <Menu></Menu>
+    <Header></Header>
     <el-main>
       <router-view />
     </el-main>
@@ -9,18 +9,23 @@
 </template>
 
 <script>
-import { defineComponent, getCurrentInstance, nextTick, reactive, toRefs } from "vue";
+import {
+  defineComponent,
+  getCurrentInstance,
+  nextTick,
+  reactive,
+  toRefs,
+} from "vue";
 
 export default {
   setup() {
     // 菜单
-    const Menu = defineComponent({
+    const Header = defineComponent({
       setup() {
-        const {ctx} = getCurrentInstance();
-        nextTick(() =>{
+        const { ctx } = getCurrentInstance();
+        nextTick(() => {
           console.log(ctx.$route);
-    
-        })
+        });
 
         const data = reactive({
           active: "/",
@@ -31,11 +36,12 @@ export default {
             activeTextColor: "#ffd04b",
           },
           menu: [
-            { index: "/", text: "home" },
-            { index: "/inj", text: "inj" },
+            { index: "/", text: "首页" },
+            { index: "/inj", text: "注入" },
           ],
           headerStyle: {
             backgroundColor: "#545c64",
+            "-webkit-app-region": "drag",
           },
         });
 
@@ -45,14 +51,15 @@ export default {
       },
       render() {
         return (
-          <el-header class="main-menu" flex="wrap:nowrap box:last" style={this.headerStyle}>
+          <el-header
+            class="main-menu"
+            flex="wrap:nowrap box:last"
+            style={this.headerStyle}
+          >
             <el-menu default-active={this.active} {...this.args} router>
               {this.menu.map((item) => {
                 return (
-                  <el-menu-item index={item.index}>
-                    {" "}
-                    {this.$t(item.text)}{" "}
-                  </el-menu-item>
+                  <el-menu-item index={item.index}>{item.text}</el-menu-item>
                 );
               })}
             </el-menu>
@@ -63,7 +70,7 @@ export default {
     });
 
     return {
-      Menu,
+      Header,
     };
   },
 };
@@ -72,6 +79,7 @@ export default {
 <style lang="scss">
 body {
   margin: 20px;
+  background-color: transparent !important;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -90,14 +98,17 @@ body {
     }
   }
 }
-.main-menu{
-  .el-menu{
-    border-bottom: none!important;
+.main-menu {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  overflow: hidden;
+  .el-menu {
+    border-bottom: none !important;
   }
-  .el-icon-circle-close{
+  .el-icon-circle-close {
     color: white;
     font-size: 30px;
-    padding-right: 10px;
+    padding-right: 14px;
   }
 }
 </style>
